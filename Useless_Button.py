@@ -30,6 +30,23 @@ st.set_page_config(page_title="Useless Button Idle", layout="wide", initial_side
 # Custom CSS for dynamic colors and effects
 st.markdown("""
 <style>
+    /* Prevent page scrolling and maintain position */
+    html {
+        scroll-behavior: auto !important;
+        overflow-x: hidden;
+    }
+    body {
+        overflow-x: hidden;
+    }
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    /* Prevent layout shifts */
+    .element-container {
+        margin-bottom: 0.5rem;
+    }
+    /* Combo display */
     .combo-display {
         font-size: 2em;
         font-weight: bold;
@@ -37,6 +54,7 @@ st.markdown("""
         text-align: center;
         animation: pulse 0.5s infinite;
     }
+    /* Event banner */
     .event-banner {
         padding: 10px;
         border-radius: 10px;
@@ -44,6 +62,7 @@ st.markdown("""
         font-weight: bold;
         margin: 10px 0;
     }
+    /* Power-up active */
     .powerup-active {
         background: linear-gradient(90deg, #FFD700, #FFA500);
         color: white;
@@ -56,7 +75,68 @@ st.markdown("""
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
     }
+    /* Prevent button from causing scroll */
+    .stButton>button {
+        transition: none !important;
+    }
 </style>
+<script>
+    // Prevent page scrolling and maintain position
+    (function() {
+        // Save scroll position before any navigation
+        function saveScrollPos() {
+            sessionStorage.setItem('scrollPos', window.scrollY || window.pageYOffset);
+        }
+        
+        // Restore scroll position after page loads
+        function restoreScrollPos() {
+            const scrollPos = sessionStorage.getItem('scrollPos');
+            if (scrollPos !== null) {
+                // Multiple attempts to ensure it works
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(scrollPos));
+                }, 50);
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(scrollPos));
+                }, 200);
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(scrollPos));
+                }, 500);
+            }
+        }
+        
+        // Save on any interaction that might cause rerun
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                saveScrollPos();
+            }
+        }, true);
+        
+        // Save before unload
+        window.addEventListener('beforeunload', saveScrollPos);
+        
+        // Restore on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', restoreScrollPos);
+        } else {
+            restoreScrollPos();
+        }
+        
+        // Also restore after a short delay (for Streamlit reruns)
+        window.addEventListener('load', restoreScrollPos);
+        
+        // Prevent default scroll behavior on reruns
+        let lastScrollPos = window.scrollY;
+        setInterval(function() {
+            const currentScroll = window.scrollY;
+            const savedPos = sessionStorage.getItem('scrollPos');
+            if (savedPos && Math.abs(currentScroll - parseInt(savedPos)) > 50) {
+                window.scrollTo(0, parseInt(savedPos));
+            }
+            lastScrollPos = currentScroll;
+        }, 100);
+    })();
+</script>
 """, unsafe_allow_html=True)
 
 # Set the webpage title
@@ -82,7 +162,6 @@ if new_achievements:
     for ach_id in new_achievements:
         ach = ACHIEVEMENTS[ach_id]
         st.success(f"🏆 Achievement Unlocked: {ach['name']} - {ach['description']}")
-        st.balloons()
 
 # Show recent events
 if st.session_state.recent_events:
@@ -156,13 +235,24 @@ with col1:
     """
     st.markdown(button_style, unsafe_allow_html=True)
     
-    clicked = st.button('DO NOT PRESS', use_container_width=True, type="primary")
+    # Store scroll position before any action
+    st.markdown("""
+    <script>
+        // Save scroll position before rerun
+        if (typeof window.streamlitRerun === 'undefined') {
+            window.streamlitRerun = true;
+            const originalRerun = window.parent.postMessage;
+            window.addEventListener('beforeunload', function() {
+                sessionStorage.setItem('scrollPos', window.scrollY);
+            });
+        }
+    </script>
+    """, unsafe_allow_html=True)
+    
+    clicked = st.button('DO NOT PRESS', use_container_width=True, type="primary", key="main_click_button")
     if clicked:
         clicks_gained, combo = handle_click()
-        # Visual feedback
-        if combo > 10:
-            st.snow()  # Snow for high combos!
-        st.balloons()
+        # Don't rerun on click - just update state, let auto-refresh handle updates
         if clicks_gained > st.session_state.click_multiplier * 2:
             st.success(f"💥 Gained {clicks_gained:,} clicks!")
     
@@ -242,8 +332,12 @@ with col1:
             success, message = prestige()
             if success:
                 st.success(message)
-                st.balloons()
-                st.snow()
+                # Save scroll position before rerun
+                st.markdown("""
+                <script>
+                    sessionStorage.setItem('scrollPos', window.scrollY);
+                </script>
+                """, unsafe_allow_html=True)
                 st.rerun()
     
     st.divider()
@@ -257,7 +351,6 @@ with col1:
     elif msg_type == "error":
         st.error(message)
     elif msg_type == "success":
-        st.balloons()
         st.success(message)
 
 # --- Right Column: Shop and Power-ups ---
@@ -266,7 +359,7 @@ with col2:
     
     with tab1:
         st.header("Shop 🛒")
-        st.caption("Spend your clicks on upgrades. Because you clearly have nothing better to do.")
+        st.caption("Spend your hard-earned clicks here. Your future self will thank you. (They won't.)")
         
         # Shop tabs for organization
         shop_tab1, shop_tab2 = st.tabs(["Auto-Clickers", "Multipliers"])
@@ -275,101 +368,94 @@ with col2:
             st.subheader("Auto-Clickers 🤖")
             auto_items = {k: v for k, v in SHOP_ITEMS.items() if v["auto_clicks_per_sec"] > 0}
             for item_id, item in auto_items.items():
-                with st.container():
-                    owned_count = st.session_state.owned_items[item_id]
-                    cost = get_item_cost(item_id)
-                    
-                    # Display item info
-                    st.markdown(f"### {item['name']} (Owned: {owned_count})")
-                    st.write(item['description'])
-                    st.caption(f"Effect: +{item['auto_clicks_per_sec']} auto-clicks/sec")
-                    st.caption(f"Next cost: {cost:,} clicks")
-                    
-                    # Purchase button
-                    can_buy = can_afford(item_id)
-                    button_label = f"Buy for {cost:,} clicks 💰"
-                    
-                    if st.button(button_label, key=f"buy_{item_id}", disabled=not can_buy, use_container_width=True):
+                owned_count = st.session_state.owned_items[item_id]
+                cost = get_item_cost(item_id)
+                can_buy = can_afford(item_id)
+                
+                # Compact layout with columns
+                col_info, col_button = st.columns([3, 1])
+                with col_info:
+                    st.markdown(f'<p style="font-size: 0.85em; margin: 0.2em 0;"><strong>{item["name"]}</strong> (x{owned_count}) | +{item["auto_clicks_per_sec"]}/s | <span style="color: #FF6B6B;">{cost:,} clicks</span></p>', unsafe_allow_html=True)
+                    st.caption(item['description'])
+                with col_button:
+                    if st.button("Buy 💰", key=f"buy_{item_id}", disabled=not can_buy, use_container_width=True):
                         success, message = purchase_item(item_id)
                         if success:
-                            st.success(message)
-                            st.balloons()
                             st.rerun()
                         else:
                             st.error(message)
-                    
-                    st.divider()
         
         with shop_tab2:
             st.subheader("Click Multipliers ⚡")
             multiplier_items = {k: v for k, v in SHOP_ITEMS.items() if v["click_multiplier"] > 0}
             for item_id, item in multiplier_items.items():
-                with st.container():
-                    owned_count = st.session_state.owned_items[item_id]
-                    cost = get_item_cost(item_id)
-                    
-                    # Display item info
-                    st.markdown(f"### {item['name']} (Owned: {owned_count})")
-                    st.write(item['description'])
-                    st.caption(f"Effect: +{item['click_multiplier']} clicks per press")
-                    st.caption(f"Next cost: {cost:,} clicks")
-                    
-                    # Purchase button
-                    can_buy = can_afford(item_id)
-                    button_label = f"Buy for {cost:,} clicks 💰"
-                    
-                    if st.button(button_label, key=f"buy_{item_id}_mult", disabled=not can_buy, use_container_width=True):
+                owned_count = st.session_state.owned_items[item_id]
+                cost = get_item_cost(item_id)
+                can_buy = can_afford(item_id)
+                
+                # Compact layout with columns
+                col_info, col_button = st.columns([3, 1])
+                with col_info:
+                    st.markdown(f'<p style="font-size: 0.85em; margin: 0.2em 0;"><strong>{item["name"]}</strong> (x{owned_count}) | +{item["click_multiplier"]} clicks | <span style="color: #FF6B6B;">{cost:,} clicks</span></p>', unsafe_allow_html=True)
+                    st.caption(item['description'])
+                with col_button:
+                    if st.button("Buy 💰", key=f"buy_{item_id}_mult", disabled=not can_buy, use_container_width=True):
                         success, message = purchase_item(item_id)
                         if success:
-                            st.success(message)
-                            st.balloons()
+                            # Save scroll position before rerun
+                            st.markdown("""
+                            <script>
+                                sessionStorage.setItem('scrollPos', window.scrollY);
+                            </script>
+                            """, unsafe_allow_html=True)
                             st.rerun()
                         else:
                             st.error(message)
-                    
-                    st.divider()
     
     with tab2:
         st.header("Power-ups ⚡")
-        st.caption("Temporary boosts to maximize your clicking power!")
+        st.caption("Temporary boosts to maximize your clicking power! Because regular clicking isn't useless enough.")
         
         for powerup_id, powerup in POWERUPS.items():
-            with st.container():
-                st.markdown(f"### {powerup['name']}")
-                st.write(powerup['description'])
-                st.caption(f"Cost: {powerup['cost']:,} clicks | Duration: {powerup['duration']}s")
-                
-                # Check cooldown
-                can_use = True
-                cooldown_msg = ""
-                if powerup_id in st.session_state.powerup_cooldowns:
-                    cooldown_end = st.session_state.powerup_cooldowns[powerup_id]
-                    if time.time() < cooldown_end:
-                        remaining = int(cooldown_end - time.time())
-                        can_use = False
-                        cooldown_msg = f"⏳ Cooldown: {remaining}s"
-                    else:
-                        can_use = True
-                
-                can_afford_powerup = st.session_state.clicks >= powerup['cost']
-                button_disabled = not (can_use and can_afford_powerup)
-                
-                button_label = f"Activate for {powerup['cost']:,} clicks"
+            # Check cooldown
+            can_use = True
+            cooldown_msg = ""
+            if powerup_id in st.session_state.powerup_cooldowns:
+                cooldown_end = st.session_state.powerup_cooldowns[powerup_id]
+                if time.time() < cooldown_end:
+                    remaining = int(cooldown_end - time.time())
+                    can_use = False
+                    cooldown_msg = f"⏳ {remaining}s"
+                else:
+                    can_use = True
+            
+            can_afford_powerup = st.session_state.clicks >= powerup['cost']
+            button_disabled = not (can_use and can_afford_powerup)
+            
+            # Compact layout
+            col_powerup_info, col_powerup_button = st.columns([3, 1])
+            with col_powerup_info:
+                st.markdown(f'<p style="font-size: 0.85em; margin: 0.2em 0;"><strong>{powerup["name"]}</strong> | {powerup["cost"]:,} clicks | {powerup["duration"]}s</p>', unsafe_allow_html=True)
+                st.caption(powerup['description'])
+            with col_powerup_button:
+                button_label = "Activate ⚡"
                 if not can_use:
                     button_label = cooldown_msg
                 elif not can_afford_powerup:
-                    button_label = f"Need {powerup['cost']:,} clicks"
+                    button_label = "Need 💰"
                 
                 if st.button(button_label, key=f"powerup_{powerup_id}", disabled=button_disabled, use_container_width=True):
                     success, message = activate_powerup(powerup_id)
                     if success:
-                        st.success(message)
-                        st.balloons()
+                        # Save scroll position before rerun
+                        st.markdown("""
+                        <script>
+                            sessionStorage.setItem('scrollPos', window.scrollY);
+                        </script>
+                        """, unsafe_allow_html=True)
                         st.rerun()
                     else:
                         st.error(message)
-                
-                st.divider()
     
     with tab3:
         st.header("Statistics 📊")
@@ -420,6 +506,12 @@ with st.sidebar:
     if st.button("🔄 Reset Game", type="secondary"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
+        # Save scroll position before rerun
+        st.markdown("""
+        <script>
+            sessionStorage.setItem('scrollPos', window.scrollY);
+        </script>
+        """, unsafe_allow_html=True)
         st.rerun()
 
 # Track best combo and streak
@@ -441,4 +533,10 @@ if st.session_state.auto_clicks_per_sec > 0:
     
     if time_since_last_refresh >= 0.5:
         st.session_state.last_refresh_time = current_time
+        # Save scroll position before auto-refresh
+        st.markdown("""
+        <script>
+            sessionStorage.setItem('scrollPos', window.scrollY);
+        </script>
+        """, unsafe_allow_html=True)
         st.rerun()

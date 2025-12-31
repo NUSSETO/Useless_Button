@@ -12,7 +12,7 @@ SHOP_ITEMS = {
         "base_cost": 10,
         "click_multiplier": 1,
         "auto_clicks_per_sec": 0,
-        "description": "Gives +1 click per press. Because your mouse is broken, I guess?",
+        "description": "A mouse so broken it somehow makes you click better. Physics left the chat.",
         "cost_multiplier": 1.15  # 15% increase per purchase
     },
     "intern": {
@@ -20,7 +20,7 @@ SHOP_ITEMS = {
         "base_cost": 50,
         "click_multiplier": 0,
         "auto_clicks_per_sec": 1,
-        "description": "Auto-clicks 1 time per second. They're not very efficient.",
+        "description": "Works for exposure and clicks once per second. Still better than your actual job.",
         "cost_multiplier": 1.2
     },
     "chatgpt": {
@@ -28,7 +28,7 @@ SHOP_ITEMS = {
         "base_cost": 200,
         "click_multiplier": 0,
         "auto_clicks_per_sec": 10,
-        "description": "Auto-clicks 10 times per second. Still more useful than you.",
+        "description": "AI so advanced it can click buttons. Still can't figure out why you're doing this.",
         "cost_multiplier": 1.25
     },
     "click_farm": {
@@ -36,7 +36,7 @@ SHOP_ITEMS = {
         "base_cost": 500,
         "click_multiplier": 0,
         "auto_clicks_per_sec": 50,
-        "description": "Auto-clicks 50 times per second. Exploiting workers since forever.",
+        "description": "A sweatshop of digital hamsters running on wheels. Ethical? No. Effective? Also no, but it clicks.",
         "cost_multiplier": 1.3
     },
     "double_click": {
@@ -44,7 +44,7 @@ SHOP_ITEMS = {
         "base_cost": 100,
         "click_multiplier": 2,
         "auto_clicks_per_sec": 0,
-        "description": "Doubles your click power. Now you're twice as useless!",
+        "description": "Double the clicks, double the disappointment when you realize what you're doing.",
         "cost_multiplier": 1.4
     },
     "ai_overlord": {
@@ -52,7 +52,7 @@ SHOP_ITEMS = {
         "base_cost": 1000,
         "click_multiplier": 0,
         "auto_clicks_per_sec": 100,
-        "description": "Auto-clicks 100 times per second. Skynet is here, and it clicks buttons.",
+        "description": "The AI uprising begins... with clicking buttons. Humanity is doomed, but at least it's efficient.",
         "cost_multiplier": 1.35
     },
     "click_magnet": {
@@ -60,7 +60,7 @@ SHOP_ITEMS = {
         "base_cost": 250,
         "click_multiplier": 5,
         "auto_clicks_per_sec": 0,
-        "description": "+5 clicks per press. Magnets, how do they work?",
+        "description": "Magnets attract clicks. Science can't explain it, but neither can it explain why you're still here.",
         "cost_multiplier": 1.5
     },
     "time_machine": {
@@ -68,29 +68,29 @@ SHOP_ITEMS = {
         "base_cost": 5000,
         "click_multiplier": 0,
         "auto_clicks_per_sec": 500,
-        "description": "Auto-clicks 500 times per second. You've traveled back in time to click more.",
+        "description": "You went back in time to click buttons. Your ancestors are proud. Just kidding, they're horrified.",
         "cost_multiplier": 1.4
     }
 }
 
 # Achievement definitions
 ACHIEVEMENTS = {
-    "first_click": {"name": "First Click 🎯", "threshold": 1, "description": "You clicked once. Congratulations?"},
-    "ten_clicks": {"name": "Double Digits 🔟", "threshold": 10, "description": "10 clicks. Still pathetic."},
-    "hundred_clicks": {"name": "Century Club 💯", "threshold": 100, "description": "100 clicks. You're committed to wasting time."},
-    "thousand_clicks": {"name": "Kilo Clicker 📊", "threshold": 1000, "description": "1,000 clicks. This is getting sad."},
-    "ten_thousand": {"name": "Decamillionaire 🏆", "threshold": 10000, "description": "10,000 clicks. You need help."},
-    "hundred_thousand": {"name": "Click Master 👑", "threshold": 100000, "description": "100,000 clicks. You've achieved nothing."},
-    "million": {"name": "Millionaire (of Clicks) 💰", "threshold": 1000000, "description": "1,000,000 clicks. Seriously, get help."},
-    "first_upgrade": {"name": "First Purchase 🛒", "threshold": -1, "description": "Bought your first upgrade. The addiction begins."},
-    "auto_clicker": {"name": "Automation 🏭", "threshold": -1, "description": "Unlocked auto-clicking. You're officially lazy."},
-    "speed_demon": {"name": "Speed Demon ⚡", "threshold": -1, "description": "100+ auto-clicks per second. You've peaked."},
-    "combo_master": {"name": "Combo Master 🔥", "threshold": -1, "description": "Achieved a 50x combo streak!"},
-    "lucky_click": {"name": "Lucky Clicker 🍀", "threshold": -1, "description": "Got a lucky click bonus!"},
-    "power_up_user": {"name": "Power User ⚡", "threshold": -1, "description": "Used your first power-up."},
-    "prestige_master": {"name": "Prestige Master 🌟", "threshold": -1, "description": "Prestiged for the first time!"},
-    "secret_clicker": {"name": "Secret Clicker 🕵️", "threshold": -1, "description": "Found the secret! (Click 777 times)"},
-    "streak_king": {"name": "Streak King 👑", "threshold": -1, "description": "Maintained a 100-click streak!"}
+    "first_click": {"name": "First Click 🎯", "threshold": 1, "description": "You clicked once. Your life peaked here."},
+    "ten_clicks": {"name": "Double Digits 🔟", "threshold": 10, "description": "10 whole clicks! Your parents would be so proud if they knew what you were doing."},
+    "hundred_clicks": {"name": "Century Club 💯", "threshold": 100, "description": "100 clicks. You could've learned a language, but you chose this."},
+    "thousand_clicks": {"name": "Kilo Clicker 📊", "threshold": 1000, "description": "1,000 clicks. You've officially spent more time here than on your resume."},
+    "ten_thousand": {"name": "Decamillionaire 🏆", "threshold": 10000, "description": "10,000 clicks. At this point, you're just proving a point. What point? Nobody knows."},
+    "hundred_thousand": {"name": "Click Master 👑", "threshold": 100000, "description": "100,000 clicks. You've mastered the art of clicking. Your degree is in the mail."},
+    "million": {"name": "Millionaire (of Clicks) 💰", "threshold": 1000000, "description": "1,000,000 clicks. You've won... nothing. But hey, you're persistent!"},
+    "first_upgrade": {"name": "First Purchase 🛒", "threshold": -1, "description": "You spent clicks on upgrades. The rabbit hole has no bottom. Welcome."},
+    "auto_clicker": {"name": "Automation 🏭", "threshold": -1, "description": "You automated clicking. You've automated being useless. Peak efficiency."},
+    "speed_demon": {"name": "Speed Demon ⚡", "threshold": -1, "description": "100+ auto-clicks per second. You've optimized the most pointless activity ever."},
+    "combo_master": {"name": "Combo Master 🔥", "threshold": -1, "description": "50x combo! You're so good at clicking, it's almost impressive. Almost."},
+    "lucky_click": {"name": "Lucky Clicker 🍀", "threshold": -1, "description": "You got lucky! Too bad you used all your luck on clicking buttons."},
+    "power_up_user": {"name": "Power User ⚡", "threshold": -1, "description": "You used a power-up. You're now a power user of uselessness. Congrats?"},
+    "prestige_master": {"name": "Prestige Master 🌟", "threshold": -1, "description": "You prestiged! You reset everything to do it again. You're in too deep."},
+    "secret_clicker": {"name": "Secret Clicker 🕵️", "threshold": -1, "description": "777 clicks! The secret is: you're wasting your life. Surprise!"},
+    "streak_king": {"name": "Streak King 👑", "threshold": -1, "description": "100-click streak! You're the king of consistency in the most useless way possible."}
 }
 
 def initialize_game_state():
@@ -224,7 +224,7 @@ def handle_click():
         clicks_to_add += lucky_bonus
         st.session_state.recent_events.append({
             "type": "lucky",
-            "message": f"🍀 LUCKY CLICK! +{lucky_bonus:,} bonus clicks!",
+            "message": f"🍀 LUCKY CLICK! You got {lucky_bonus:,} bonus clicks! Too bad you used all your luck on this.",
             "time": current_time
         })
         if "lucky_click" not in st.session_state.achievements:
@@ -318,17 +318,17 @@ def process_random_events(current_time):
     if time_since_last > rand_threshold:
         if st.session_state.active_event is None:
             events = [
-                {"name": "Click Frenzy", "multiplier": 2.0, "duration": 10, "emoji": "⚡"},
-                {"name": "Lucky Hour", "multiplier": 1.5, "duration": 15, "emoji": "🍀"},
-                {"name": "Double Trouble", "multiplier": 2.5, "duration": 8, "emoji": "💥"},
-                {"name": "Mega Boost", "multiplier": 3.0, "duration": 5, "emoji": "🚀"}
+                {"name": "Click Frenzy", "multiplier": 2.0, "duration": 10, "emoji": "⚡", "message": "⚡ CLICK FRENZY! The universe rewards your dedication to uselessness. 2x clicks for 10s!"},
+                {"name": "Lucky Hour", "multiplier": 1.5, "duration": 15, "emoji": "🍀", "message": "🍀 LUCKY HOUR! Lady Luck smiled upon you. Too bad she's laughing. 1.5x clicks for 15s!"},
+                {"name": "Double Trouble", "multiplier": 2.5, "duration": 8, "emoji": "💥", "message": "💥 DOUBLE TROUBLE! Double the clicks, double the shame. 2.5x clicks for 8s!"},
+                {"name": "Mega Boost", "multiplier": 3.0, "duration": 5, "emoji": "🚀", "message": "🚀 MEGA BOOST! Peak clicking performance achieved. Your ancestors weep. 3x clicks for 5s!"}
             ]
             event = random.choice(events)
             st.session_state.active_event = event
             st.session_state.event_end_time = current_time + event["duration"]
             st.session_state.recent_events.append({
                 "type": "event",
-                "message": f"{event['emoji']} {event['name']} activated! {event['multiplier']}x clicks for {event['duration']}s!",
+                "message": event["message"],
                 "time": current_time
             })
             st.session_state.last_random_event = current_time
@@ -414,7 +414,6 @@ def unlock_achievement(ach_id):
     if ach_id not in st.session_state.achievements:
         st.session_state.achievements.add(ach_id)
         if ach_id in ACHIEVEMENTS:
-            st.balloons()  # Celebrate!
             return True
     return False
 
@@ -423,21 +422,21 @@ def get_sarcastic_message():
     clicks = st.session_state.clicks
     
     if clicks == 0:
-        return ("info", "Good, nothing has changed.")
+        return ("info", "Zero clicks. You're winning at life by not playing. Good job!")
     elif clicks < 10:
-        return ("warning", f"You've clicked {clicks} times. Is it worth it?")
+        return ("warning", f"{clicks} clicks. You could've made a sandwich. But no, you chose this.")
     elif clicks < 25:
-        return ("warning", "Serious? Can you find something better to do?")
+        return ("warning", "Still here? Your future self is judging you. Hard.")
     elif clicks < 100:
-        return ("error", "Enough is enough.")
+        return ("error", "You're really committed to this, aren't you? It's almost admirable. Almost.")
     elif clicks == 100:
-        return ("success", "Congrats! You've wasted so much time in your life!")
+        return ("success", "100 clicks! You've officially wasted more time than a loading screen.")
     elif clicks < 1000:
-        return ("info", "Still clicking? Really?")
+        return ("info", "Still clicking? At this point, it's a lifestyle choice. A terrible one.")
     elif clicks < 10000:
-        return ("warning", "You know you can stop anytime, right?")
+        return ("warning", "You know you can stop, right? No? Okay then. Keep going, I guess.")
     else:
-        return ("error", "That's it. I am not going to say anything else anymore. (But you'll keep clicking anyway.)")
+        return ("error", "I've given up trying to help you. You're on your own now. (You'll keep clicking anyway, won't you?)")
 
 def get_time_played():
     """Get the time played in a readable format."""
@@ -466,28 +465,28 @@ POWERUPS = {
         "name": "Double Clicks ⚡",
         "cost": 1000,
         "duration": 30,
-        "description": "Double all clicks for 30 seconds",
+        "description": "Double the clicks, double the existential crisis. Lasts 30 seconds.",
         "multiplier": 2.0
     },
     "triple_clicks": {
         "name": "Triple Clicks 🔥",
         "cost": 5000,
         "duration": 20,
-        "description": "Triple all clicks for 20 seconds",
+        "description": "Triple the power, triple the regret. 20 seconds of pure clicking chaos.",
         "multiplier": 3.0
     },
     "mega_clicks": {
         "name": "Mega Clicks 💥",
         "cost": 20000,
         "duration": 15,
-        "description": "5x all clicks for 15 seconds",
+        "description": "5x multiplier! Your finger will thank you when it falls off. 15 seconds.",
         "multiplier": 5.0
     },
     "auto_boost": {
         "name": "Auto Boost 🚀",
         "cost": 10000,
         "duration": 60,
-        "description": "Double auto-click rate for 60 seconds",
+        "description": "Double the auto-clicks so you can be twice as lazy. 60 seconds of peak laziness.",
         "multiplier": 2.0
     }
 }
